@@ -44,17 +44,14 @@ Benchmark.ips do |x|
   x.report("outside loop - no cache") do
     outside_loop
   end
-
   x.report("inside loop - no cache") do
     inside_loop
   end
-
   x.report("outside loop - cache") do
     ActiveRecord::Base.cache do
       outside_loop
     end
   end
-
   x.report("inside loop - cache") do
     ActiveRecord::Base.cache do
       inside_loop
@@ -63,3 +60,10 @@ Benchmark.ips do |x|
 
   x.compare!
 end
+
+ActiveRecord::Base.logger.level = :debug
+
+puts "------ A ------"
+ActiveRecord::Base.cache { outside_loop }
+puts "------ B ------"
+ActiveRecord::Base.cache { inside_loop }

@@ -25,3 +25,10 @@ Benchmark.ips do |x|
 
   x.compare!
 end
+
+ActiveRecord::Base.logger.level = :debug
+
+puts "------ A ------"
+a
+puts "------ B ------"
+b

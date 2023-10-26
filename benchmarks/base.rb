@@ -44,6 +44,7 @@ ActiveRecord::Schema.define do
   create_table :articles, force: true do |t|
     t.string :title, null: false
     t.string :content, null: false
+    t.boolean :is_active, null: false, default: true
     t.references :blog, null: false, foreign_key: false, index: false
     t.timestamps
   end

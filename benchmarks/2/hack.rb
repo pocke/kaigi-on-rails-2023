@@ -11,7 +11,8 @@ module Anyp
 
     lhs = body.children[0]
     rhs = body.children[2].children[0]
-    if ((col = column_call?(lhs)) && (lit = literal?(rhs))) || ((col = column_call?(rhs)) && (lit = literal?(lhs)))
+    if ((col = column_call?(lhs)) && (lit = literal?(rhs))) ||
+       ((col = column_call?(rhs)) && (lit = literal?(lhs)))
       exists?(col => lit)
     else
       super
@@ -35,8 +36,12 @@ module Anyp
   end
 end
 
-ActiveRecord::Relation.prepend(Anyp)
-
-Article.create!(title: "Hello", content: "World", blog_id: 42)
 ActiveRecord::Base.logger.level = :debug
+Article.create!(title: "Hello", content: "World", blog_id: 42)
+
+puts "----- before hacking any? -----"
+p Article.all.any? { _1.blog_id == 42 }
+
+puts "----- after hacking any? -----"
+ActiveRecord::Relation.prepend(Anyp)
 p Article.all.any? { _1.blog_id == 42 }
